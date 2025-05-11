@@ -5,6 +5,7 @@
 #include "AkAudioEvent.h"
 #include "AkComponent.h"
 #include "AkSwitchValue.h"
+#include "AkGameplayStatics.h"
 #include "Wwise/API/WwiseSoundEngineAPI.h"
 
 // Sets default values
@@ -19,7 +20,7 @@ AIntroCharacter::AIntroCharacter()
 void AIntroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UAkGameplayStatics::SetSwitch(HighFrequencySwitchValue, this);
 }
 
 // Called every frame
@@ -36,7 +37,6 @@ void AIntroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AIntroCharacter::PostKickEvent()
 {
-	UE_LOG(LogTemp, Warning, TEXT("kick event"));
 	
 	if (auto* SoundEngine = IWwiseSoundEngineAPI::Get())
 	{
@@ -48,6 +48,35 @@ void AIntroCharacter::PostKickEvent()
 			}
 			KickEvent->PostOnActor(this, {}, 0, false);
 		}
+	}
+}
+
+void AIntroCharacter::PlayHighLowTone()
+{
+	if (auto* SoundEngine = IWwiseSoundEngineAPI::Get())
+	{
+		if (ToneEvent)
+		{
+			if (!ToneEvent->IsLoaded())
+			{
+				ToneEvent->LoadData();
+			}
+			ToneEvent->PostOnActor(this, {}, 0, false);
+		}
+	}
+}
+
+void AIntroCharacter::ChangeFrequency()
+{
+	if (HighFrequency && HighFrequencySwitchValue && LowFrequencySwitchValue)
+	{
+		HighFrequency = 0;
+		UAkGameplayStatics::SetSwitch(LowFrequencySwitchValue, this);
+	}
+	else if (HighFrequencySwitchValue && LowFrequencySwitchValue)
+	{
+		HighFrequency = 1;
+		UAkGameplayStatics::SetSwitch(HighFrequencySwitchValue, this);
 	}
 }
 

@@ -32,4 +32,21 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UAkAudioEvent* KickEvent;
 
+	UPROPERTY(EditAnywhere)
+	class UAkAudioEvent* ToneEvent;
+
+	UPROPERTY(EditAnywhere)
+	class UAkSwitchValue* HighFrequencySwitchValue;
+
+	UPROPERTY(EditAnywhere)
+	class UAkSwitchValue* LowFrequencySwitchValue;
+
+	UFUNCTION(BlueprintCallable)
+	void PlayHighLowTone();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeFrequency();
+
+	bool HighFrequency = 1;
+
 };
