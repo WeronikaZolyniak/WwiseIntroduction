@@ -21,6 +21,8 @@ void AIntroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	UAkGameplayStatics::SetSwitch(HighFrequencySwitchValue, this);
+	UAkGameplayStatics::SetRTPCValue(VelocityLoopRTPC, VelocityLoopRTPCValue, 0, this);
+	VelocityLoopEvent->PostOnActor(this, {}, 0, false);
 }
 
 // Called every frame
@@ -77,6 +79,24 @@ void AIntroCharacter::ChangeFrequency()
 	{
 		HighFrequency = 1;
 		UAkGameplayStatics::SetSwitch(HighFrequencySwitchValue, this);
+	}
+}
+
+void AIntroCharacter::IncreaseVelocityLoopRTPCValue()
+{
+	if (VelocityLoopRTPCValue > 0)
+	{
+		VelocityLoopRTPCValue -= 100;
+		UAkGameplayStatics::SetRTPCValue(VelocityLoopRTPC, VelocityLoopRTPCValue, 0, this);
+	}
+}
+
+void AIntroCharacter::DecreaseVelocityLoopRTPCValue()
+{
+	if (VelocityLoopRTPCValue < 1200)
+	{
+		VelocityLoopRTPCValue += 100;
+		UAkGameplayStatics::SetRTPCValue(VelocityLoopRTPC, VelocityLoopRTPCValue, 0, this);
 	}
 }
 

@@ -29,6 +29,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PostKickEvent();
 
+	UFUNCTION(BlueprintCallable)
+	void PlayHighLowTone();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeFrequency();
+
+	UFUNCTION(BlueprintCallable)
+	void IncreaseVelocityLoopRTPCValue();
+
+	UFUNCTION(BlueprintCallable)
+	void DecreaseVelocityLoopRTPCValue();
+
 	UPROPERTY(EditAnywhere)
 	class UAkAudioEvent* KickEvent;
 
@@ -36,17 +48,20 @@ public:
 	class UAkAudioEvent* ToneEvent;
 
 	UPROPERTY(EditAnywhere)
+	class UAkAudioEvent* VelocityLoopEvent;
+
+	UPROPERTY(EditAnywhere)
 	class UAkSwitchValue* HighFrequencySwitchValue;
 
 	UPROPERTY(EditAnywhere)
 	class UAkSwitchValue* LowFrequencySwitchValue;
 
-	UFUNCTION(BlueprintCallable)
-	void PlayHighLowTone();
-
-	UFUNCTION(BlueprintCallable)
-	void ChangeFrequency();
+	// min: 0 max: 1200
+	UPROPERTY(EditAnywhere)
+	class UAkRtpc* VelocityLoopRTPC;
+	int VelocityLoopRTPCValue = 600;
 
 	bool HighFrequency = 1;
+	
 
 };
